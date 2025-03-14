@@ -26,6 +26,20 @@ app.MapGet("/", () =>
 })
 .WithName("GetHome");
 
+
+app.MapGet("/{price}/{tax}", (double price, double tax) =>
+{
+
+    var final = price + price * tax;
+    return new {
+        price,
+        tax,
+        final
+    };
+})
+.WithName("GetTax");
+
+
 // In class task 30 min
 // implement a new endpoint "/{prince}/{tax}/"
 // return a JSON
