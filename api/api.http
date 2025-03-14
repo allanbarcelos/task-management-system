@@ -1,6 +1,40 @@
 @api_HostAddress = http://localhost:5179
 
-GET {{api_HostAddress}}/weatherforecast/
+GET {{api_HostAddress}}/
 Accept: application/json
 
 ###
+
+
+# @name login
+POST {{api_HostAddress}}/auth/login HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "Email": "allan@barcelos.dev",
+    "Password": "aA123456@"
+}
+
+###
+@token = {{login.response.body.token}}
+
+###
+
+GET {{api_HostAddress}}/protected
+Accept: application/json
+Authorization: Bearer {{token}}
+
+###
+
+POST {{api_HostAddress}}/auth/register HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "Email": "allan@barcelos.dev",
+    "Password": "aA123456@"
+}
+
+###
+

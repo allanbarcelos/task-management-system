@@ -1,74 +1,92 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
+using API.Data;
+
+// Builder
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); // string
 
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(
+    options => {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        // options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    }
+)
+.AddJwtBearer(
+    options => {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    }
+);
+
+builder.Services.AddAuthorization(
+    options => 
+    {
+        options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+        options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
+        options.AddPolicy("RequireDeveloperRole", policy => policy.RequireRole("Developer"));
+    }
+);
+
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(); // Easy Way to do the API documentation 
+
+// stage 2
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    app.MapOpenApi();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    if(!(await roleManager.RoleExistsAsync("User"))){
+        await roleManager.CreateAsync(new IdentityRole("User"));
+    }
+
+    if(!(await roleManager.RoleExistsAsync("Admin"))){
+        await roleManager.CreateAsync(new IdentityRole("Admin"));
+    }
+
+    if(!(await roleManager.RoleExistsAsync("Developer"))){
+        await roleManager.CreateAsync(new IdentityRole("Developer"));
+    }
 }
 
-app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+if(app.Environment.IsDevelopment()){
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-// Home http://localhost:<PORT>/
-app.MapGet("/", () =>
-{
-    return "API is working";
-})
-.WithName("GetHome");
+// if not in Development or is in Production
+if(!app.Environment.IsDevelopment()){
+    app.UseHttpsRedirection();
+}
 
+app.UseAuthentication();
+app.UseAuthorization();
 
-app.MapGet("/{price}/{tax}", (double price, double tax) =>
-{
-
-    var final = price + price * tax;
-    return new {
-        price,
-        tax,
-        final
-    };
-})
-.WithName("GetTax");
-
-
-// In class task 30 min
-// implement a new endpoint "/{prince}/{tax}/"
-// return a JSON
-
-// { 
-//      price: 0.00
-//      tax: 0%
-//      final: price + tax
-// }
-
-
-// Weather Forecast "http://localhost:<PORT>/weatherforecast"
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+app.MapControllers();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

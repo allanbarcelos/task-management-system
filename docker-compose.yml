@@ -8,7 +8,7 @@ services:
         condition: service_healthy
         restart: true
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
     networks:
       - internal_network
 
