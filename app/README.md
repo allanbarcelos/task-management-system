@@ -1,36 +1,138 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# APP
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+app/
+├── components/
+│   ├── Auth/
+│   │   ├── Login.tsx
+│   │   ├── Register.tsx
+│   ├── Task/
+│   │   ├── TaskList.tsx
+│   │   ├── TaskForm.tsx
+│   ├── Layout/
+│   │   ├── Header.tsx
+│   │   ├── Footer.tsx
+│   ├── Common/
+│   │   ├── LoadingSpinner.tsx
+├── hooks/
+│   ├── useAuth.ts
+├── pages/
+│   ├── api/
+│   │   ├── auth.ts
+│   │   ├── task.ts
+│   ├── _app.tsx
+│   ├── _document.tsx
+│   ├── index.tsx
+│   ├── login.tsx
+│   ├── register.tsx
+│   ├── tasks.tsx
+├── styles/
+│   ├── globals.scss
+│   ├── variables.scss
+├── utils/
+│   ├── api.ts
+│   ├── auth.ts
+├── .env.local
+├── next.config.js
+├── tsconfig.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Hooks 
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### useState (local state mangement)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```jsx
+    import { useState } from "react";
 
-## Learn More
+    function Counter() {
+        const [counter, setCounter] = useState(0);
 
-To learn more about Next.js, take a look at the following resources:
+        return (
+            <>
+                <p>Value: {counter}</p>
+                <button onClick={() => setCounter(counter + 1)}> Increment</button>
+            </>
+        )
+    }
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### useEffect (colateral effects)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```jsx
+    import { useState, useEffect } from "react";
 
-## Deploy on Vercel
+    function UserData() {
+        const [data, setData] = useState(null);
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+        useEffect(() => {
+            fetch("https://localhost/api/users/1")
+            .then((res) => res.json() )
+            .then((data) =>setData(data));
+        }, []); // the empty arry means this will run one time (like `componentDidMount`)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+        return <pre>{JSON.stringify(data, null, 2)}</pre>
+    }
+```
+
+
+### useContext (share global state)
+
+```jsx
+    import { useContext, createContext } from "react";
+
+    const ThemeContext = createContext("light");
+
+    function Button() {
+        const theme = useContext(ThemeContext);
+
+        return <button style={{ background : theme === "dark" ? "black" :  "white"}}> Click to change </button>
+    }
+```
+
+
+### useRef (DOM element refference)
+
+
+```jsx
+    import { useRef } from "react";
+
+    function InputFocus() {
+        const inputRef = useRef(null);
+
+        return (
+            <>
+                <input ref={inputRef} type="text" />
+                <button onmClick={() => inputRef.current.focus()}> Focused </button>)
+            </>
+    }
+```
+
+
+### use Memo (memorize calculus)
+
+
+```jsx
+    import { useState, useMemo } from "react";
+
+    function SomeSum({numbers}) {
+        const result = useMemo(() => number.reduce((a,b) => a + b, 0), [numbers]);
+
+        return  <p> Sum: { result } </p>;
+    }
+```
+
+### useCallback (memorize the functions )
+
+
+```jsx
+    import { useCallback } from "react";
+
+    function Component() {
+        const memorizedFunction = useCallback(() => {
+            console.log("Executing ...")
+        }, []);
+
+        return  <button onCLick={memorizedFunction}>Execute</button>
+    }
+```
+
