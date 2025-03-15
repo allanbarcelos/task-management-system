@@ -26,12 +26,15 @@
     "paths": {
       "@api/*": ["api/*"],
       "@components/*": ["components/*"],
+      "@config/*": ["config/*"],
       "@contexts/*": ["contexts/*"],
       "@features/*": ["features/*"],
       "@hooks/*": ["hooks/*"],
       "@interfaces/*": ["interfaces/*"],
       "@pages/*": ["pages/*"],
       "@providers/*": ["providers/*"],
+      "@utils/*": ["utils/*"],
+
     }
   },
   "include": ["src"]

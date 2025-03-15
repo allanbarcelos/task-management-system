@@ -1,7 +1,83 @@
 # APP
 
 ```
-
+app/
+├── public/
+│   ├── assets/
+│   │   └── img/
+│   │       └── error-404-monochrome.svg
+│   └── vite.svg
+├── src/
+│   ├── api/
+│   │   └── auth.ts
+│   ├── App.tsx
+│   ├── components/
+│   │   ├── AuthFormContainer.tsx
+│   │   ├── Breadcrumb.tsx
+│   │   ├── Footer.tsx
+│   │   ├── Header.tsx
+│   │   ├── MainLayout.tsx
+│   │   ├── PrivateRoute.tsx
+│   │   ├── PublicRoute.tsx
+│   │   └── Sidebar.tsx
+│   ├── contexts/
+│   │   └── AuthContext.ts
+│   ├── features/
+│   │   ├── background/
+│   │   │   └── backgroundSlice.ts
+│   │   └── sidebar/
+│   │       └── sidebarSlice.ts
+│   ├── hooks/
+│   │   └── useAuth.ts
+│   ├── interfaces/
+│   │   ├── RouteHandle.ts
+│   │   └── User.ts
+│   ├── main.tsx
+│   ├── pages/
+│   │   ├── Dashboard.tsx
+│   │   ├── E401.tsx
+│   │   ├── E404.tsx
+│   │   ├── E500.tsx
+│   │   ├── ForgotPassword.tsx
+│   │   ├── Login.tsx
+│   │   ├── Profile.tsx
+│   │   └── Register.tsx
+│   ├── providers/
+│   │   └── AuthProvider.tsx
+│   ├── routes.tsx
+│   ├── scss/
+│   │   ├── _global.scss
+│   │   ├── _variables.scss
+│   │   ├── layout/
+│   │   │   ├── _authentication.scss
+│   │   │   ├── _dashboard-default.scss
+│   │   │   ├── _dashboard-fixed.scss
+│   │   │   └── _error.scss
+│   │   ├── navigation/
+│   │   │   ├── _nav.scss
+│   │   │   ├── _topnav.scss
+│   │   │   └── sidenav/
+│   │   │       ├── _sidenav-dark.scss
+│   │   │       ├── _sidenav-light.scss
+│   │   │       └── _sidenav.scss
+│   │   ├── plugins/
+│   │   │   └── simple-datatables.scss
+│   │   ├── styles.scss
+│   │   └── variables/
+│   │       ├── _navigation.scss
+│   │       └── _spacing.scss
+│   ├── store.ts
+│   └── vite-env.d.ts
+├── .env.development
+├── .env.production
+├── .gitignore
+├── example.env
+├── index.html
+├── package-lock.json
+├── package.json
+├── README.md
+├── tsconfig.json
+└── vite.config.ts
 ```
 
 ## Hooks 

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { register } from '@api/auth';
 import { useNavigate } from 'react-router-dom';
 import AuthFormContainer from '@components/AuthFormContainer';
 import { useDispatch } from 'react-redux';
 import { setBackgroundColor } from '@features/background/backgroundSlice';
+import axios from 'axios';
+import { toastr } from '@utils/toastr';
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -14,8 +15,13 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await register(email, password);
-    navigate('/login');
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, { email, password });
+      navigate('/login');
+    } catch (error) {
+      toastr('error', `${error}`);
+    }
+
   };
 
   // --

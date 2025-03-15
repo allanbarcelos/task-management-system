@@ -4,6 +4,7 @@ import { useAuth } from '@hooks/useAuth';
 import AuthFormContainer from '@components/AuthFormContainer';
 import { useDispatch } from 'react-redux';
 import { setBackgroundColor } from '@features/background/backgroundSlice';
+import { toastr } from '@utils/toastr';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const Login = () => {
       await login(email, password);
       navigate('/');
     } catch (error) {
-      console.error('Login failed:', error);
+      toastr('error', `Login failed: ${error}`);
     }
   };
 
