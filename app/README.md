@@ -1,40 +1,7 @@
 # APP
 
 ```
-app/
-├── components/
-│   ├── Auth/
-│   │   ├── Login.tsx
-│   │   ├── Register.tsx
-│   ├── Task/
-│   │   ├── TaskList.tsx
-│   │   ├── TaskForm.tsx
-│   ├── Layout/
-│   │   ├── Header.tsx
-│   │   ├── Footer.tsx
-│   ├── Common/
-│   │   ├── LoadingSpinner.tsx
-├── hooks/
-│   ├── useAuth.ts
-├── pages/
-│   ├── api/
-│   │   ├── auth.ts
-│   │   ├── task.ts
-│   ├── _app.tsx
-│   ├── _document.tsx
-│   ├── index.tsx
-│   ├── login.tsx
-│   ├── register.tsx
-│   ├── tasks.tsx
-├── styles/
-│   ├── globals.scss
-│   ├── variables.scss
-├── utils/
-│   ├── api.ts
-│   ├── auth.ts
-├── .env.local
-├── next.config.js
-├── tsconfig.json
+
 ```
 
 ## Hooks 
