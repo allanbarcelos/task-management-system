@@ -1,6 +1,4 @@
-using System;
-
-namespace FP_task_management_system.Models
+namespace API.Models
 {
     public class Task
     {
