@@ -1,0 +1,14 @@
+using System;
+
+namespace FP_task_management_system.Models
+{
+    public class Task
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateTime DueDate { get; set; }
+        public string Status { get; set; }
+        public int UserId { get; set; }
+    }
+}

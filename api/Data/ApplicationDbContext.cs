@@ -9,5 +9,7 @@ namespace API.Data
         {
 
         }
+
+        public DbSet<Task> Tasks { get; set; }
     }
 }
