@@ -1,7 +1,7 @@
 const ForgotPassword = () => {
   return (
     <>
-      {/* TODO */}
+      {/* TO_DO */}
     </>
   );
 };
