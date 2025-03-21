@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface BackgroundState {
-  color: string; // Cor de fundo atual
+  color: string; 
 }
 
 const initialState: BackgroundState = {
-  color: 'bg-white', // Cor de fundo padrão
+  color: 'bg-white', 
 };
 
 const backgroundSlice = createSlice({
@@ -13,7 +13,7 @@ const backgroundSlice = createSlice({
   initialState,
   reducers: {
     setBackgroundColor: (state, action) => {
-      state.color = action.payload; // Atualiza a cor de fundo
+      state.color = action.payload; 
     },
   },
 });

@@ -20,9 +20,9 @@ function App() {
         draggable
         pauseOnHover
       />
-      <Exceptions />
-      {/* ---- */}
-      <Provider store={store}>
+    <Exceptions />
+    {/* ---- */}
+    <Provider store={store}>
       <AuthProvider>
         <RouterProvider router={router} />
       </AuthProvider>
