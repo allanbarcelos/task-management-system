@@ -4,6 +4,7 @@ import Login from '@pages/Login';
 import Dashboard from '@pages/Dashboard';
 import Profile from '@pages/Profile';
 import Register from '@pages/Register';
+import TasksList from '@pages/TasksList';
 // Components
 import E401 from '@pages/E401';
 import E404 from '@pages/E404';
@@ -49,6 +50,11 @@ const router = createBrowserRouter([
         path: '/profile',
         element: <Profile />,
         handle: { title: 'Profile', breadcrumb: 'Profile' }
+      },
+      {
+        path: '/taskslist',
+        element: <TasksList />,
+        handle: { title: 'Tasks List', breadcrumb: 'Tasks List' },
       },
     ],
   },

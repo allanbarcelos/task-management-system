@@ -32,7 +32,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "Email": "allan@barcelos.dev",
+    "Email": "teste@hotmail.com",
     "Password": "aA123456@"
 }
 
