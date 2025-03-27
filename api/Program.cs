@@ -65,6 +65,8 @@ builder.Services.AddAuthorization(
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); // Easy Way to do the API documentation 
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // stage 2
 var app = builder.Build();
