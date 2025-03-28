@@ -10,9 +10,9 @@ namespace API.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private readonly YourDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public TasksController(YourDbContext context)
+        public TasksController(ApplicationDbContext context)
         {
             _context = context;
         }
