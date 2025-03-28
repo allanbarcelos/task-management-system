@@ -1,0 +1,100 @@
+# Arquivos e pastas do sistema operacional
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Arquivos gerados durante a execução
+*.log
+*.log.*
+*.log1
+*.log2
+*.svclog
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Pastas específicas do Visual Studio
+.vs/
+.vscode/
+
+# Arquivos específicos do Visual Studio
+*.njsproj
+*.ncrunch*
+*.sln
+*.suo
+*.csproj.user
+*.cache
+*.csproj
+*.csproj.sbm
+*.vshost.exe
+*.vshost.exe.config
+*.vshost.exe.manifest
+
+# Arquivos de configuração de build
+*.psess
+*.vsp
+*.vspx
+*_i.c
+*_p.c
+*.dmp
+
+# Pacotes NuGet
+packages/
+*.nupkg
+*.nuspec
+
+# Arquivos de configuração de banco de dados
+*.mdf
+*.ldf
+*.ndf
+
+# Arquivos temporários criados pelo sistema ou editor
+*.tmp
+*.temp
+*.swp
+*~
+._*
+
+# Arquivos de saída
+[Dd]ebugPublic/
+[Rr]eleasePublic/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Ferramentas
+_ReSharper*/
+*.resharper
+[Tt]humbs.db
+[Dd]esktop.ini
+
+# Arquivos de projeto e solução
+*.pidb
+*.suo
+*.cache
+*.userprefs
+
+# Outros arquivos e pastas
+.project
+.settings/
+*.orig
+
+# Arquivos específicos de dependências e ferramentas
+node_modules/
+jspm_packages/
+
+# Arquivos de cobertura e análise de código
+coverage/
+*.coveragexml
+
+# Docker
+docker-compose*.yml
+Dockerfile
