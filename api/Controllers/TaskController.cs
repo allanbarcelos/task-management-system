@@ -27,11 +27,21 @@ namespace API.Controllers{
         }
 
         [HttpGet("/{id}/history")]
-        [Authorize(Policy="RequireUserRole")]
+        //[Authorize(Policy="RequireUserRole")]
         public async Task<IActionResult> getTaskHistory(int id){
-            var taskHistory =  await _dBContext.TasksHistories.Where(t => t.TaskItemId == id).ToListAsync();
+            var result =  await _dBContext.TasksHistories.Where(t => t.TaskItemId == id).ToListAsync();
             
-            return Ok(taskHistory);
+            if(result == null){
+                return BadRequest();
+            }
+
+            if(result.Count > 0){
+                return Ok(result);
+            }
+            else{
+                return Ok(new{ message="No changes of status"});
+            }
+
         }
 
     }

@@ -1,4 +1,4 @@
-import { faArrowLeftRotate, faLeftLong } from '@fortawesome/free-solid-svg-icons';
+import { faLeftLong } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 
