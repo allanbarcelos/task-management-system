@@ -36,5 +36,20 @@ Accept: application/json
     "Password": "aA123456@"
 }
 
-###
+### Update Task (PUT)
+PUT http://localhost:5179/tasks/3
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "id": 3,
+  "title": "Updated Task Title",
+  "description": "Updated Description",
+  "dueDate": "2025-04-30T00:00:00",
+  "status": "SHOULD_BE_IGNORED",
+  "userId": "user-guid-here",
+  "reviewerId": "reviewer-guid-here",
+  "createdAt": "2025-01-01T00:00:00",
+  "updatedAt": "2025-01-01T00:00:00"
+}
 
