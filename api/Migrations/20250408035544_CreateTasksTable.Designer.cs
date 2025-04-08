@@ -15,6 +15,7 @@ namespace api.Migrations
     partial class CreateTasksTable
     {
         /// <inheritdoc />
+        /// 
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

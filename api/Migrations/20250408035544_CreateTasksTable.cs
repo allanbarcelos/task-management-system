@@ -9,6 +9,7 @@ namespace api.Migrations
     public partial class CreateTasksTable : Migration
     {
         /// <inheritdoc />
+        /// 
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
