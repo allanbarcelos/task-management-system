@@ -51,11 +51,13 @@ const router = createBrowserRouter([
         element: <Profile />,
         handle: { title: 'Profile', breadcrumb: 'Profile' }
       },
+
       {
         path: '/taskslist',
         element: <TasksList />,
         handle: { title: 'Tasks List', breadcrumb: 'Tasks List' },
       },
+      
     ],
   },
   {

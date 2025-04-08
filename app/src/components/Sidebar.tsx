@@ -1,6 +1,7 @@
 import { faAngleDown, faBookOpen, faChartArea, faColumns, faTable, faTachometer } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAuth } from "@hooks/useAuth";
+
 import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
@@ -66,7 +67,9 @@ const Sidebar = () => {
                                     <a className="nav-link" href="500.html">500 Page</a>
                                 </nav>
                             </div>
+
                             <NavLink className="nav-link" to="/taskslist">Tasks List</NavLink>
+
                         </nav>
                     </div>
 
