@@ -2,11 +2,11 @@ import { useAuth } from '@hooks/useAuth';
 import api from '@config/axiosConfig';
 import { useEffect, useState } from 'react';
 import { toastr } from '@utils/toastr';
-import { Task } from '@interfaces/Task';
+import { TaskItem } from '@interfaces/TaskItem';
 
 const TasksList = () => {
   const { user } = useAuth();
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<TaskItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
