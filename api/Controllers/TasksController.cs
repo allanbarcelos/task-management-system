@@ -18,7 +18,7 @@ namespace API.Controllers
         }
 
         // PUT /tasks/{id}
-        [Authorize] // Requires Authentication
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTask(int id, TaskModel updatedTask)
         {
@@ -27,7 +27,29 @@ namespace API.Controllers
             if (task == null)
                 return NotFound();
 
-            // Only update allowed fields
+            // Validation: ReviewerId != UserId
+            if (updatedTask.UserId == updatedTask.ReviewerId)
+                return BadRequest("Reviewer cannot be the same as the User.");
+
+            // Validation: Check if Reviewer has 'Reviewer' role
+            var reviewer = await _context.Users.FindAsync(updatedTask.ReviewerId);
+            if (reviewer == null)
+                return BadRequest("Reviewer not found.");
+
+            var reviewerRoles = await _context.UserRoles
+                .Where(ur => ur.UserId == reviewer.Id)
+                .Select(ur => ur.RoleId)
+                .ToListAsync();
+
+            var roles = await _context.Roles
+                .Where(r => reviewerRoles.Contains(r.Id))
+                .Select(r => r.Name)
+                .ToListAsync();
+
+            if (!roles.Contains("Reviewer"))
+                return BadRequest("Selected reviewer does not have 'Reviewer' role.");
+
+            // Update allowed fields
             task.Title = updatedTask.Title;
             task.Description = updatedTask.Description;
             task.DueDate = updatedTask.DueDate;
@@ -37,7 +59,8 @@ namespace API.Controllers
 
             await _context.SaveChangesAsync();
 
-            return NoContent(); // 204 Success
+            return NoContent();
         }
+
     }
 }
