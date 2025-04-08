@@ -7,7 +7,7 @@ const Dashboard = () => {
   const { user } = useAuth();
 
   // Example to use Axios config  (check the axiosConfig.ts for more informations)
-  const [data, setData] = useState(null);
+  const [, setData] = useState(null);
 
   useEffect(() => {
     api.get('/')
