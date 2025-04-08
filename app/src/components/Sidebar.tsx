@@ -2,6 +2,8 @@ import { faAngleDown, faBookOpen, faChartArea, faColumns, faTable, faTachometer 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAuth } from "@hooks/useAuth";
 
+import { NavLink } from 'react-router-dom';
+
 const Sidebar = () => {
 
     const { user } = useAuth();
@@ -51,7 +53,7 @@ const Sidebar = () => {
                                 <nav className="sb-sidenav-menu-nested nav">
                                     <a className="nav-link" href="login.html">Login</a>
                                     <a className="nav-link" href="register.html">Register</a>
-                                    <a className="nav-link" href="password.html">Forgot Password</a>
+                                    <a className="nav-link" href="password.html">Forgot Password</a>                                    
                                 </nav>
                             </div>
                             <a className="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
@@ -65,6 +67,9 @@ const Sidebar = () => {
                                     <a className="nav-link" href="500.html">500 Page</a>
                                 </nav>
                             </div>
+
+                            <NavLink className="nav-link" to="/taskslist">Tasks List</NavLink>
+
                         </nav>
                     </div>
 
