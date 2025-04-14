@@ -26,4 +26,39 @@ const Dashboard = () => {
   );
 };
 
+import { useEffect, useState, useContext } from 'react';
+import TaskItem from '../components/TaskItem';
+import { getTasks } from '../services/TaskService';
+import AuthContext from '../contexts/AuthContext';
+
+const TaskList = () => {
+  const { token } = useContext(AuthContext);
+  const [tasks, setTasks] = useState([]);
+
+  const fetchTasks = async () => {
+    try {
+      const res = await getTasks(token);
+      setTasks(res);
+    } catch (err) {
+      console.error('Erro ao carregar tarefas:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
+  return (
+    <div className="task-list">
+      {tasks.map(task => (
+        <TaskItem
+          key={task.id}
+          task={task}
+          onTaskUpdated={fetchTasks} // callback após cancelamento
+        />
+      ))}
+    </div>
+  );
+};
+
 export default Dashboard;

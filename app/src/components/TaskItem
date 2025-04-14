@@ -1,0 +1,28 @@
+import { cancelTask } from '../services/TaskService';
+import { useContext } from 'react';
+import AuthContext from '../contexts/AuthContext'; // onde está armazenado o user/token
+
+const TaskItem = ({ task, onTaskUpdated }) => {
+  const { user, token } = useContext(AuthContext);
+
+  const handleCancel = async () => {
+    try {
+      await cancelTask(task.id, token);
+      onTaskUpdated(); // atualiza a lista após o cancelamento
+    } catch (err) {
+      alert(err.message || 'Erro ao cancelar tarefa');
+    }
+  };
+
+  return (
+    <div className="task-item">
+      <h3>{task.title}</h3>
+      <p>Status: {task.status}</p>
+      {user?.role === 'Admin' && task.status !== 'Canceled' && (
+        <button onClick={handleCancel}>Cancelar</button>
+      )}
+    </div>
+  );
+};
+
+export default TaskItem;
