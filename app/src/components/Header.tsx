@@ -24,7 +24,7 @@ const Header = () => {
       </a>
 
       {/* Sidebar Toggle */}
-      <button className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" onClick={handleToggleSidebar} >
+      <button className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" onClick={handleToggleSidebar}>
         <FontAwesomeIcon icon={faBars} />
       </button>
 
