@@ -1,6 +1,6 @@
 import { User } from './User';
 
-export interface TaskItem {
+export interface Task {
   id: number;
   title: string;
   description?: string;
