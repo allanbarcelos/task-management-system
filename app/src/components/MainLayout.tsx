@@ -4,30 +4,33 @@ import Footer from './Footer';
 import Breadcrumb from './Breadcrumb';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
+import FeedbackMessage from './FeedbackMessage';
+
 
 interface MainLayoutProps {
   children: React.ReactNode;
   pageTitle?: string;
   breadcrumb?: string;
+  feedback?: { type: 'success' | 'error' | 'info'; message: string } | null;
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children, pageTitle = 'Dashboard' }) => {
+const MainLayout: React.FC<MainLayoutProps> = ({ children, pageTitle = 'Dashboard', feedback }) => {
 
   const isSidebarOpen = useSelector((state: RootState) => state.sidebar.isOpen);
 
-    useEffect(() => {
-      if (isSidebarOpen) {
-        document.body.classList.remove('sb-sidenav-toggled');
-      } else {
-        document.body.classList.add('sb-sidenav-toggled');
-      }
-  
-      return () => {
-        document.body.classList.remove('sb-sidenav-toggled');
-      };
-    }, [isSidebarOpen]);
+  useEffect(() => {
+    if (isSidebarOpen) {
+      document.body.classList.remove('sb-sidenav-toggled');
+    } else {
+      document.body.classList.add('sb-sidenav-toggled');
+    }
 
-    
+    return () => {
+      document.body.classList.remove('sb-sidenav-toggled');
+    };
+  }, [isSidebarOpen]);
+
+
   return (
     <div id="layoutSidenav">
       {/* Sidebar */}
@@ -45,9 +48,17 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, pageTitle = 'Dashboar
             {/* Breadcrumb */}
             <Breadcrumb />
 
+
+            {feedback && (
+              <FeedbackMessage type={feedback.type} message={feedback.message} />
+            )}
+
             {/* Content */}
             {children}
           </div>
+
+
+
         </main>
 
         {/* Footer */}
