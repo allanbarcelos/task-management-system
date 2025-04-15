@@ -4,6 +4,7 @@ import Login from '@pages/Login';
 import Dashboard from '@pages/Dashboard';
 import Profile from '@pages/Profile';
 import Register from '@pages/Register';
+import ReviewerTasks from '@pages/ReviewerTasks';
 // Components
 import E401 from '@pages/E401';
 import E404 from '@pages/E404';
@@ -11,28 +12,24 @@ import E500 from '@pages/E500';
 import PrivateRoute from '@components/PrivateRoute';
 import PublicRoute from '@components/PublicRoute';
 
-
-
 const ErrorRoute = () => {
   return (
-    <>
-      <div id="layoutError">
-        <div id="layoutError_content">
-          <main>
-            <div className="container">
-              <div className="row justify-content-center">
-                <div className="col-lg-6">
-                  <div className="text-center mt-4">
-                    <Outlet />
-                  </div>
+    <div id="layoutError">
+      <div id="layoutError_content">
+        <main>
+          <div className="container">
+            <div className="row justify-content-center">
+              <div className="col-lg-6">
+                <div className="text-center mt-4">
+                  <Outlet />
                 </div>
               </div>
             </div>
-          </main>
-        </div>
+          </div>
+        </main>
       </div>
-    </>
-  )
+    </div>
+  );
 };
 
 const router = createBrowserRouter([
@@ -43,12 +40,17 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Dashboard />,
-        handle: { title: 'Dashboard', breadcrumb: 'Dashboard' }, // Dados personalizados
+        handle: { title: 'Dashboard', breadcrumb: 'Dashboard' },
       },
       {
         path: '/profile',
         element: <Profile />,
-        handle: { title: 'Profile', breadcrumb: 'Profile' }
+        handle: { title: 'Profile', breadcrumb: 'Profile' },
+      },
+      {
+        path: '/reviewer-tasks',
+        element: <ReviewerTasks />,
+        handle: { title: 'Reviewer Tasks', breadcrumb: 'Reviewer Tasks' },
       },
     ],
   },
@@ -67,7 +69,6 @@ const router = createBrowserRouter([
       { path: '*', element: <E404 /> },
       { path: '/e401', element: <E401 /> },
       { path: '/e500', element: <E500 /> },
-
     ],
   },
 ]);
