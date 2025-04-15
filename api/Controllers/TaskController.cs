@@ -48,7 +48,7 @@ namespace FP_task_management_system.Controllers
         }
 
         [HttpGet("/{id}/history")]
-        //[Authorize(Policy="RequireUserRole")]
+        [Authorize(Policy="RequireUserRole")]
         public async Task<IActionResult> getTaskHistory(int id){
             var result =  await _dBContext.TasksHistories.Where(t => t.TaskItemId == id).ToListAsync();
             
