@@ -1,10 +1,13 @@
-namespace API.Controllers{
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.AspNetCore.Authorization;
-    using API.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using FP_task_management_system.Models;
 
-    //Create a TaskHistory model to record status changes and add a GET /tasks/{id}/history endpoint to view the history.
+namespace FP_task_management_system.Controllers
+{
 
     public class TaskHistory{
         public int Id { get; set; }
@@ -15,15 +18,33 @@ namespace API.Controllers{
         public string ChangedByUserId { get; set; } = string.Empty;
     }
 
-
     [ApiController]
-    [Route("/[controller]")]
-    public class TaskController : ControllerBase{
+    [Route("api/[controller]")]
+    [Authorize]
+    public class TasksController : ControllerBase
+    {
+        private readonly AppDbContext _context;
 
-        private readonly ApplicationDbContext _dBContext;
+        public TasksController(AppDbContext context)
+        {
+            _context = context;
+        }
 
-        public TaskController(ApplicationDbContext dBContext){
-            _dBContext = dBContext;
+        [HttpGet]
+        public async Task<IActionResult> GetUserTasks()
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return Unauthorized();
+            }
+
+            var userTasks = await _context.Tasks
+                                          .Where(t => t.UserId == userId)
+                                          .ToListAsync();
+
+            return Ok(userTasks);
         }
 
         [HttpGet("/{id}/history")]
@@ -43,7 +64,5 @@ namespace API.Controllers{
             }
 
         }
-
     }
-
 }
