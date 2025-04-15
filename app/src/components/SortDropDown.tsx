@@ -39,3 +39,22 @@ const SortDropdown: React.FC<Props> = ({
 };
 
 export default SortDropdown;
+
+/*
+    To implement in TaskList.tsx page:
+    
+    imports
+      -import SortDropdown from '@components/SortDropDown';
+    
+    variables
+      -const [sortKey, setSortKey] = useState<'creationDate' | 'dueDate' | 'status'>('creationDate');
+      -const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+    component
+      <SortDropdown
+        sortKey={sortKey}
+        sortOrder={sortOrder}
+        onSortKeyChange={setSortKey}
+        onSortOrderChange={setSortOrder}
+      />
+*/

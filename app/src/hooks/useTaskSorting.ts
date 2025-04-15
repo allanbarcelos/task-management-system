@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
-import { Task } from '../interfaces/Task'; 
+import { TaskItem } from '../interfaces/TaskItem'; 
 
 type SortKey = 'creationDate' | 'dueDate' | 'status';
 type SortOrder = 'asc' | 'desc';
 
-export function useTaskSorting(tasks: Task[], sortBy: SortKey, order: SortOrder = 'asc') {
+export function useTaskSorting(tasks: TaskItem[], sortBy: SortKey, order: SortOrder = 'asc') {
   return useMemo(() => {
     const sorted = tasks.slice().sort((t1, t2) => {
       let compareValue = 0;
@@ -25,13 +25,13 @@ export function useTaskSorting(tasks: Task[], sortBy: SortKey, order: SortOrder 
 }
 
 /*
-    To implement:
+    To implement in TaskList.tsx page:
     
-    imports >>
-    import { useTaskSorting } from '@hooks/useTaskSorting';
+    imports:
+      -import { useTaskSorting } from '@hooks/useTaskSorting';
 
-    variables >>
-    const sortedTasks = useTaskSorting(tasks, sortKey, sortOrder);
+    variables:
+      -const sortedTasks = useTaskSorting(tasks, sortKey, sortOrder);
     
    *  Replace tasks with sortedTasks at implementation.
 */
