@@ -37,6 +37,37 @@ namespace FP_task_management_system.Controllers
             return Ok(userTasks);
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetTasks([FromQuery] int page = 1, [FromQuery] int pageSize = 5)
+        {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
+            {
+                return Unauthorized();
+            }
+
+            var query = _context.Tasks
+                .Where(t => t.UserId == userIdClaim.Value)
+                .OrderByDescending(t => t.CreatedAt);
+
+            var totalTasks = await query.CountAsync();
+            var tasks = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return Ok(new
+            {
+                tasks,
+                currentPage = page,
+                pageSize,
+                totalTasks,
+                totalPages = (int)Math.Ceiling(totalTasks / (double)pageSize)
+            });
+        }
+
         // PUT /tasks/{id}/status
         [Authorize(Policy = "RequireReviewerRole")]
         [HttpPut("{id}/status")]
@@ -46,7 +77,6 @@ namespace FP_task_management_system.Controllers
             if (task == null)
                 return NotFound();
 
-            // Check if the authenticated user is the assigned reviewer
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (currentUserId == null || task.ReviewerId != currentUserId)
                 return Forbid("Only the assigned reviewer can update the status of this task.");
