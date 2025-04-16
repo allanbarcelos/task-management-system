@@ -1,68 +1,113 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using FP_task_management_system.Models;
+import React, { useState } from 'react';
+import { Form, Button, Alert } from 'react-bootstrap';
 
-namespace FP_task_management_system.Controllers
-{
-    [ApiController]
-    [Route("api/[controller]")]
-    [Authorize]
-    public class TasksController : ControllerBase
-    {
-        private readonly AppDbContext _context;
-
-        public TasksController(AppDbContext context)
-        {
-            _context = context;
-        }
-
-        private bool ValidateDueDate(DateTime dueDate)
-        {
-            return dueDate > DateTime.UtcNow;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetUserTasks()
-        {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-
-            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
-            {
-                return Unauthorized();
-            }
-
-            var userTasks = await _context.Tasks
-                                          .Where(t => t.UserId == userId)
-                                          .ToListAsync();
-
-            return Ok(userTasks);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateTask([FromBody] TaskModel task)
-        {
-            if (!ValidateDueDate(task.DueDate))
-            {
-                return BadRequest("Due date must be in the future.");
-            }
-
-            // ... existing code ...
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTask(int id, [FromBody] TaskModel task)
-        {
-            if (!ValidateDueDate(task.DueDate))
-            {
-                return BadRequest("Due date must be in the future.");
-            }
-
-            // ... existing code ...
-        }
-    }
+interface TaskFormProps {
+  initialData?: {
+    title: string;
+    description: string;
+    dueDate: string;
+    status: string;
+  };
+  onSubmit: (formData: any) => void;
+  isEditing?: boolean;
 }
+
+const TaskForm: React.FC<TaskFormProps> = ({ initialData, onSubmit, isEditing = false }) => {
+  const [formData, setFormData] = useState({
+    title: initialData?.title || '',
+    description: initialData?.description || '',
+    dueDate: initialData?.dueDate || '',
+    status: initialData?.status || 'Pending'
+  });
+  const [error, setError] = useState<string>('');
+
+  const validateDueDate = (date: string): boolean => {
+    const selectedDate = new Date(date);
+    const now = new Date();
+    return selectedDate > now;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateDueDate(formData.dueDate)) {
+      setError('Due date must be in the future');
+      return;
+    }
+
+    setError('');
+    onSubmit(formData);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+
+    // Clear error when due date is changed
+    if (name === 'dueDate') {
+      setError('');
+    }
+  };
+
+  return (
+    <Form onSubmit={handleSubmit}>
+      {error && <Alert variant="danger">{error}</Alert>}
+      
+      <Form.Group className="mb-3">
+        <Form.Label>Title</Form.Label>
+        <Form.Control
+          type="text"
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
+          required
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label>Description</Form.Label>
+        <Form.Control
+          as="textarea"
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          rows={3}
+          required
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label>Due Date</Form.Label>
+        <Form.Control
+          type="datetime-local"
+          name="dueDate"
+          value={formData.dueDate}
+          onChange={handleChange}
+          required
+        />
+      </Form.Group>
+
+      <Form.Group className="mb-3">
+        <Form.Label>Status</Form.Label>
+        <Form.Select
+          name="status"
+          value={formData.status}
+          onChange={handleChange}
+        >
+          <option value="Pending">Pending</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </Form.Select>
+      </Form.Group>
+
+      <Button variant="primary" type="submit">
+        {isEditing ? 'Update Task' : 'Create Task'}
+      </Button>
+    </Form>
+  );
+};
+
+export default TaskForm; 
