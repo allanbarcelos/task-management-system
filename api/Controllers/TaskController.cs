@@ -36,5 +36,36 @@ namespace FP_task_management_system.Controllers
 
             return Ok(userTasks);
         }
+
+        [HttpPut("{id}/status")]
+        [Authorize(Roles = "Reviewer,Admin")]
+        public async Task<IActionResult> UpdateTaskStatus(int id, [FromBody] StatusUpdateRequest request)
+        {
+            var task = await _context.Tasks.FindAsync(id);
+
+            if (task == null)
+            {
+                return NotFound(new { message = "Task not found" });
+            }
+
+            var allowedStatuses = new[] { "Pending", "In Progress", "Completed" };
+            if (!allowedStatuses.Contains(request.Status))
+            {
+                return BadRequest(new { message = "Invalid status value" });
+            }
+
+            task.Status = request.Status;
+            task.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Status updated successfully", task });
+        }
+    }
+
+    // Inline model class for status update request
+    public class StatusUpdateRequest
+    {
+        public string Status { get; set; } = string.Empty;
     }
 }
