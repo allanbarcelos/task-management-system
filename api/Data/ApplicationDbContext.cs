@@ -1,3 +1,5 @@
+using API.Models;
+
 namespace API.Data
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -9,5 +11,6 @@ namespace API.Data
         {
 
         }
+        public DbSet<TaskModel> Tasks { get; set; }
     }
 }
