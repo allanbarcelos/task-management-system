@@ -58,6 +58,7 @@ builder.Services.AddAuthorization(
         options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
         options.AddPolicy("RequireUserRole", policy => policy.RequireRole("User"));
         options.AddPolicy("RequireDeveloperRole", policy => policy.RequireRole("Developer"));
+        options.AddPolicy("RequireReviewerRole", policy => policy.RequireRole("Reviewer"));
     }
 );
 
@@ -89,6 +90,10 @@ using (var scope = app.Services.CreateScope())
 
     if(!(await roleManager.RoleExistsAsync("Developer"))){
         await roleManager.CreateAsync(new IdentityRole("Developer"));
+    }
+
+    if(!(await roleManager.RoleExistsAsync("Reviewer"))){
+        await roleManager.CreateAsync(new IdentityRole("Reviewer"));
     }
 }
 
