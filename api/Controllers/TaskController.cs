@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -20,6 +21,11 @@ namespace FP_task_management_system.Controllers
             _context = context;
         }
 
+        private bool ValidateDueDate(DateTime dueDate)
+        {
+            return dueDate > DateTime.UtcNow;
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetUserTasks()
         {
@@ -35,6 +41,28 @@ namespace FP_task_management_system.Controllers
                                           .ToListAsync();
 
             return Ok(userTasks);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateTask([FromBody] TaskModel task)
+        {
+            if (!ValidateDueDate(task.DueDate))
+            {
+                return BadRequest("Due date must be in the future.");
+            }
+
+            // ... existing code ...
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateTask(int id, [FromBody] TaskModel task)
+        {
+            if (!ValidateDueDate(task.DueDate))
+            {
+                return BadRequest("Due date must be in the future.");
+            }
+
+            // ... existing code ...
         }
     }
 }
