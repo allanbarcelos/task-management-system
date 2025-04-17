@@ -36,5 +36,12 @@ Accept: application/json
     "Password": "aA123456@"
 }
 
-###
+### Update task status
+PUT {{api_HostAddress}}/tasks/5/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "Completed"
+}
 
